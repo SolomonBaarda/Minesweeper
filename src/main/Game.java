@@ -14,6 +14,8 @@ public class Game implements Runnable {
 	public static final int DEFAULT_CELL_SIZE = 16; // Pixels
 	public static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
+	public static final int DEFAULT_MINE_COUNT = 100;
+	
 	private Board board;
 	private Controller controller;
 	private Display display;
@@ -24,9 +26,9 @@ public class Game implements Runnable {
 	public Game() {
 		board = new Board(DEFAULT_BOARD_SIZE);
 
-		controller = new Controller();
+		//controller = new Controller();
 		display = new Display(DEFAULT_DISPLAY_SIZE);
-		display.getCanvas().addKeyListener(controller);
+		//display.getCanvas().addKeyListener(controller);
 
 		renderer = new Renderer(board, DEFAULT_CELL_SIZE);
 

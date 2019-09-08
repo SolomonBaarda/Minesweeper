@@ -1,5 +1,7 @@
 package main;
 
+import enums.CellContent;
+
 public class Cell {
 	private CellContent content;
 	private int col, row;	

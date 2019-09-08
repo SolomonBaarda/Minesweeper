@@ -1,29 +1,49 @@
 package controller;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Controller implements KeyListener {
+public class Controller implements MouseListener {
 
 	public Controller() {
 	}
 
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
+	public void mousePressed(MouseEvent e) {
+		int click = e.getButton();
+		
+		if(click == MouseEvent.BUTTON1) {
+			
+		}
+		else if(click == MouseEvent.BUTTON2) {
+			
+		}
 
 	}
+
 
 
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void mouseClicked(MouseEvent arg0) {	
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void mouseEntered(MouseEvent arg0) {
 	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+	}
+
+
+
 
 
 

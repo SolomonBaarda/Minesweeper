@@ -1,11 +1,14 @@
 package main;
 
+import generation.RandomNumber;
 import utils.Pair;
 
 public class Board {
 
 	private Cell[][] board;
 	private Pair boardSize;
+	
+	private static RandomNumber randomGenerator = new RandomNumber();
 
 	public Board(int columnCount, int rowCount) {
 		this(new Pair(columnCount, rowCount));
@@ -14,15 +17,7 @@ public class Board {
 	public Board(Pair boardSize) {
 		this.boardSize = boardSize;
 
-		// Create new board
-		board = new Cell[boardSize.x][boardSize.y];
-
-		// Initialise each cell in the board
-		for(int row = 0; row < boardSize.y; row++) 
-			for(int col = 0; col < boardSize.x; col++) {
-				board[col][row] = new Cell(col, row);
-			}
-
+		board = randomGenerator.generate(boardSize, Game.DEFAULT_MINE_COUNT);
 	}
 
 

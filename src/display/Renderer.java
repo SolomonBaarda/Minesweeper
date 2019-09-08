@@ -3,6 +3,7 @@ package display;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import enums.CellContent;
 import main.Board;
 import main.Cell;
 
@@ -21,7 +22,7 @@ public class Renderer {
 		for(int row = 0; row < board.getBoardSize().y; row++)
 			for(int col = 0; col < board.getBoardSize().x; col++) {
 
-				Cell currentCell  = board.getCell(col, row);
+				Cell currentCell = board.getCell(col, row);
 
 				// Draw all cell backgrounds as black
 				g.setColor(Color.black);
@@ -29,6 +30,10 @@ public class Renderer {
 				g.setColor(Color.darkGray);
 				g.drawRect(col * cellSize, row * cellSize, cellSize-1, cellSize-1);
 
+				if(currentCell.getContent() == CellContent.Mine) {
+					g.setColor(Color.red);
+					g.fillOval(col * cellSize, row * cellSize, cellSize, cellSize);
+				}
 
 			}
 		}
