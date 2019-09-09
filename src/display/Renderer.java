@@ -42,6 +42,10 @@ public class Renderer {
 					g.setColor(Color.green);
 					g.fillOval(col * cellSize, row * cellSize, cellSize, cellSize);
 				}
+				else if(currentCell.getFlagType() == FlagType.Suspected) {
+					g.setColor(Color.white);
+					g.fillOval(col * cellSize, row * cellSize, cellSize, cellSize);
+				}
 
 			}
 		}

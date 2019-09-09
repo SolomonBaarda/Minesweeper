@@ -30,12 +30,14 @@ public class Game implements Runnable {
 	public Game(Pair boardSize, Pair displaySize, int cellSize, int mineCount) {
 
 		board = new Board(boardSize, mineCount);
-		controller = new Controller(board, cellSize);
+		controller = new Controller(this, board, cellSize);
 
 		display = new Display(displaySize);
 		display.getCanvas().addMouseListener(controller);
 
 		renderer = new Renderer(board, cellSize);
+		
+		board.printBoard();
 	}
 
 
@@ -92,8 +94,19 @@ public class Game implements Runnable {
 			lastTime = now;
 		}
 	}
+	
+	
+	
 
 
+
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
 
 	public static void main(String[] args) {
 		Game g = new Game();
