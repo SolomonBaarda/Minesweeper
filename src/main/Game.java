@@ -11,10 +11,10 @@ import utils.Pair;
 public class Game implements Runnable {
 
 	private static final Pair DEFAULT_BOARD_SIZE = new Pair(32, 32);
-	private static final int DEFAULT_CELL_SIZE = 16; // Pixels
+	private static final int DEFAULT_CELL_SIZE = 32; // Pixels
 	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
-	private static final int DEFAULT_MINE_COUNT = 100;
+	private static final int DEFAULT_MINE_COUNT = 124;
 
 	private Board board;
 	private Controller controller;

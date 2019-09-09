@@ -27,7 +27,7 @@ public class Board {
 
 
 	public void printBoard() {
-		System.out.println("Canvas size: "+ boardSize.x +" x "+ boardSize.y);
+		System.out.println("Board size: "+ boardSize.x +" x "+ boardSize.y);
 
 		for(int row = 0; row < boardSize.y; row++) {
 			for(int column = 0; column < boardSize.x; column++) {
