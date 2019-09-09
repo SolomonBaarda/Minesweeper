@@ -1,5 +1,6 @@
 package main;
 
+import generation.Generator;
 import generation.RandomNumber;
 import utils.Pair;
 
@@ -8,20 +9,22 @@ public class Board {
 	private Cell[][] board;
 	private Pair boardSize;
 	
-	private static RandomNumber randomGenerator = new RandomNumber();
+	private Generator randomGenerator = new RandomNumber();
+	private final int mineCount;
 
-	public Board(int columnCount, int rowCount) {
-		this(new Pair(columnCount, rowCount));
+	public Board(int columnCount, int rowCount, final int mineCount) {
+		this(new Pair(columnCount, rowCount), mineCount);
+		
 	}
 
-	public Board(Pair boardSize) {
+	public Board(Pair boardSize, final int mineCount) {
 		this.boardSize = boardSize;
-
-		board = randomGenerator.generate(boardSize, Game.DEFAULT_MINE_COUNT);
+		this.mineCount = mineCount;
+		
+		board = randomGenerator.generate(boardSize, mineCount);
 	}
 
 
-	
 	public void printBoard() {
 		System.out.println("Canvas size: "+ boardSize.x +" x "+ boardSize.y);
 
@@ -48,7 +51,11 @@ public class Board {
 		return board;
 	}
 
+	public int getMineCount() {
+		return mineCount;
+	}
 
+	
 
 
 }

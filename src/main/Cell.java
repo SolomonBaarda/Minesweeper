@@ -1,9 +1,11 @@
 package main;
 
 import enums.CellContent;
+import enums.FlagType;
 
 public class Cell {
 	private CellContent content;
+	private FlagType flagType;
 	private int col, row;	
 
 
@@ -41,6 +43,18 @@ public class Cell {
 	}
 
 
+
+	public FlagType getFlagType() {
+		return flagType;
+	}
+
+
+
+	public void setFlagType(FlagType flagType) {
+		this.flagType = flagType;
+	}
+
+	
 
 }
 

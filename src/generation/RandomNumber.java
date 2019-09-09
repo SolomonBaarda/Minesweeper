@@ -6,10 +6,11 @@ import enums.CellContent;
 import main.Cell;
 import utils.Pair;
 
-public class RandomNumber {
+public class RandomNumber extends Generator {
 
-	Random r = new Random();
+	private Random r = new Random();
 
+	@Override 
 	public Cell[][] generate(Pair boardSize, int mineCount) {
 
 		// Create new board
@@ -21,7 +22,7 @@ public class RandomNumber {
 				generation[col][row] = new Cell(col, row);
 			}
 
-		final int totalCells = boardSize.x * boardSize.y;
+		//final int totalCells = boardSize.x * boardSize.y;
 		int minesPlaced = 0;
 
 		while(minesPlaced < mineCount) {
@@ -32,12 +33,18 @@ public class RandomNumber {
 						minesPlaced++;
 					}
 					if(minesPlaced >= mineCount) {
-						break;
+						System.out.println("Board generated with " +minesPlaced+ " mines.");
+
+						return generation;
 					}
 
 				}
 
 		}
+		System.out.println("Board generated with " +minesPlaced+ " mines.");
+
 		return generation;
 	}
+
+
 }

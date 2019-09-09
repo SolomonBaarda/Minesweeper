@@ -4,15 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import enums.CellContent;
+import enums.FlagType;
 import main.Board;
 import main.Cell;
 
 public class Renderer {
 
 	private Board board;
-	private int cellSize;
+	private final int cellSize;
 
-	public Renderer(Board board, int cellSize) {
+	public Renderer(Board board, final int cellSize) {
 		this.board = board;
 		this.cellSize = cellSize;
 	}
@@ -34,8 +35,22 @@ public class Renderer {
 					g.setColor(Color.red);
 					g.fillOval(col * cellSize, row * cellSize, cellSize, cellSize);
 				}
+				
+				
+				
+				if(currentCell.getFlagType() == FlagType.Flag) {
+					g.setColor(Color.green);
+					g.fillOval(col * cellSize, row * cellSize, cellSize, cellSize);
+				}
 
 			}
 		}
+
+
+	public int getCellSize() {
+		return cellSize;
+	}
+	
+	
 
 }

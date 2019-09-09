@@ -1,7 +1,6 @@
 package display;
 
 import java.awt.Canvas;
-
 import javax.swing.JFrame;
 
 import utils.Pair;
@@ -24,9 +23,15 @@ public class Display extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Minesweeper");
 
+//		GridLayout l = new GridLayout(2, 1);
+//		l.setVgap(10);
+//		setLayout(l);
+		
 		// Set the size of the canvas
 		canvas.setBounds(0, 0, displaySizePixels.x, displaySizePixels.y);
 
+
+		
 		//Add our graphics component
 		add(canvas);
 

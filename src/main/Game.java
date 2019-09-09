@@ -10,12 +10,12 @@ import utils.Pair;
 
 public class Game implements Runnable {
 
-	public static final Pair DEFAULT_BOARD_SIZE = new Pair(32, 32);
-	public static final int DEFAULT_CELL_SIZE = 16; // Pixels
-	public static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
+	private static final Pair DEFAULT_BOARD_SIZE = new Pair(32, 32);
+	private static final int DEFAULT_CELL_SIZE = 16; // Pixels
+	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
-	public static final int DEFAULT_MINE_COUNT = 100;
-	
+	private static final int DEFAULT_MINE_COUNT = 100;
+
 	private Board board;
 	private Controller controller;
 	private Display display;
@@ -24,21 +24,24 @@ public class Game implements Runnable {
 	private boolean gameOver;
 
 	public Game() {
-		board = new Board(DEFAULT_BOARD_SIZE);
+		this(DEFAULT_BOARD_SIZE, DEFAULT_DISPLAY_SIZE, DEFAULT_CELL_SIZE, DEFAULT_MINE_COUNT);
+	}
 
-		//controller = new Controller();
-		display = new Display(DEFAULT_DISPLAY_SIZE);
-		//display.getCanvas().addKeyListener(controller);
+	public Game(Pair boardSize, Pair displaySize, int cellSize, int mineCount) {
 
-		renderer = new Renderer(board, DEFAULT_CELL_SIZE);
+		board = new Board(boardSize, mineCount);
+		controller = new Controller(board, cellSize);
 
-		//board.printBoard();
+		display = new Display(displaySize);
+		display.getCanvas().addMouseListener(controller);
+
+		renderer = new Renderer(board, cellSize);
 	}
 
 
 	public void update() {
 		if(!gameOver) {
-			
+
 		}
 
 		//System.out.println("Update complete");
