@@ -46,18 +46,15 @@ public class Controller implements MouseListener {
 					}
 					// No flag
 					else {
-						cellClicked.setClicked(true);
+						// Click all nearby cells 
+						board.smartClick(cellClicked);
+						
 						// Mine
 						if(cellClicked.isMine()) {
 							// Game over
 							game.printLose();
 							game.setGameOver(true);
 							game.render();
-						}
-						// Not a mine
-						else {
-							// Click all nearby empty tiles
-							board.smartCellClick(cellClicked);
 						}
 
 					}
@@ -80,7 +77,7 @@ public class Controller implements MouseListener {
 			// Generate board if not done 
 			else {
 				board.generate(new Point(cellX, cellY));
-				board.smartCellClick(board.getCell(cellX, cellY));
+				board.smartClick(board.getCell(cellX, cellY));
 			}
 		}
 		else {

@@ -116,7 +116,7 @@ public class Board {
 	}
 
 
-	public void smartCellClick(Cell clickedCell) {
+	public void smartClick(Cell clickedCell) {
 		clickedCell.setClicked(true);
 
 		if(!clickedCell.isMine()) {
@@ -162,7 +162,7 @@ public class Board {
 					continue;
 				}
 				else if(nextCell.getNearbyMineCount() == nearbyMineCountLevel || cellNearEdge(nextCell)) {
-					smartCellClick(nextCell);
+					smartClick(nextCell);
 				}
 
 

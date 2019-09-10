@@ -28,7 +28,7 @@ public class Renderer {
 
 					// Cell has been clicked on
 					if(currentCell.isClicked()) {
-						
+
 						// Draw all cell backgrounds as lightGray
 						g.setColor(Color.lightGray);
 						g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
@@ -71,26 +71,27 @@ public class Renderer {
 					g.setColor(Color.black);
 					g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
 				}
-				
+
 				// Give a grey border to each cell
 				g.setColor(Color.darkGray);
 				g.drawRect(col * cellSize, row * cellSize, cellSize-1, cellSize-1);
+
 			}
 	}
 
 
 
-	public void renderAllMines() {
-		for(int row = 0; row < board.getBoardSize().y; row++)
-			for(int col = 0; col < board.getBoardSize().x; col++) {
-				Cell currentCell = board.getCell(col, row);
-
-				if(currentCell.isMine()) {
-					//					g.setColor(Color.red);
-					//					g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
-				}
-			}
-	}
+//	public void renderAllMines() {
+//		for(int row = 0; row < board.getBoardSize().y; row++)
+//			for(int col = 0; col < board.getBoardSize().x; col++) {
+//				Cell currentCell = board.getCell(col, row);
+//
+//				if(currentCell.isMine()) {
+//					g.setColor(Color.red);
+//					g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
+//				}
+//			}
+//	}
 
 
 
