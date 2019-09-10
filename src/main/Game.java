@@ -14,7 +14,7 @@ public class Game implements Runnable {
 	private static final int DEFAULT_CELL_SIZE = 32; // Pixels
 	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
-	private static final int DEFAULT_MINE_COUNT = 2;
+	private static final int DEFAULT_MINE_COUNT = 64;
 
 	private Board board;
 	private Controller controller;

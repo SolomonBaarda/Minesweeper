@@ -111,7 +111,6 @@ public class Board {
 
 
 		}
-
 	}
 
 
@@ -142,15 +141,50 @@ public class Board {
 
 				Cell nextCell = getCell(newX, newY);
 
+				// Skip cells already clicked
 				if(nextCell.isClicked()) {
 					continue;
 				}
-				else if(nextCell.getNearbyMineCount() == nearbyMineCountLevel) {
+				else if(nextCell.getNearbyMineCount() == nearbyMineCountLevel || cellNearEdge(nextCell)) {
 					smartCellClick(nextCell);
 				}
 
 
+
 			}
+	}
+
+
+	private boolean cellNearEdge(Cell cellToCheck) {
+		int localMineCountLevel = cellToCheck.getNearbyMineCount();
+
+		for(int yOffset = -1; yOffset < 2; yOffset++)
+			for(int xOffset = -1; xOffset < 2; xOffset++) {
+				
+				int newX = cellToCheck.getCol() + xOffset;
+				int newY = cellToCheck.getRow() + yOffset;
+				
+				// Ensure new cell is inside board
+				if(newX < 0) {
+					newX = 0;
+				}
+				else if(newX >= boardSize.x) {
+					newX = boardSize.x - 1;
+				}
+				if(newY < 0) {
+					newY = 0;
+				}
+				else if(newY >= boardSize.y) {
+					newY = boardSize.y - 1;
+				}
+				
+				if(getCell(newX, newY).getNearbyMineCount() != localMineCountLevel) {
+					return true;
+				}
+			}
+
+
+		return false;
 	}
 
 
