@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import enums.CellContent;
 import enums.FlagType;
 import main.Board;
 import main.Cell;
@@ -15,7 +14,7 @@ public class Controller implements MouseListener {
 	private Game game;
 	private Board board;
 	private final int cellSize;
-	
+
 	public Controller(Game game, Board board, int cellSize) {
 		this.game = game;
 		this.board = board;
@@ -25,33 +24,54 @@ public class Controller implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int click = e.getButton();
-		Point p = e.getPoint();
-		
-		Cell cellClicked = board.getCell(p.x / cellSize, p.y / cellSize);
-				
-		// Left click
-		if(click == MouseEvent.BUTTON1) {
-			if(cellClicked.getContent() == CellContent.Empty) {
-				
+		if(!game.isGameOver()) {
+
+			int click = e.getButton();
+			Point p = e.getPoint();
+
+			Cell cellClicked = board.getCell(p.x / cellSize, p.y / cellSize);
+
+			// Left click
+			if(click == MouseEvent.BUTTON1) {
+				// Flag on tile
+				if(cellClicked.getFlagType() == FlagType.Flag) {
+					System.out.println("Remove the flag to click on this cell");
+				}
+				// No flag
+				else {
+					cellClicked.setClicked(true);
+					// Mine
+					if(cellClicked.isMine()) {
+						// Game over
+						game.printLose();
+						game.setGameOver(true);
+						game.render();
+					}
+					// Not a mine
+					else {
+						// Click all nearby empty tiles
+						board.smartCellClick(cellClicked);
+					}
+
+				}
 			}
-			else if(cellClicked.getContent() == CellContent.Mine) {
-				game.setGameOver(true);
-				System.out.println("Game over!");
+
+			// Right click
+			else if(click == MouseEvent.BUTTON3) {
+				// Toggle between flag types
+				if(cellClicked.getFlagType() == FlagType.None) {
+					cellClicked.setFlagType(FlagType.Flag);
+				}
+				else if(cellClicked.getFlagType() == FlagType.Flag) {
+					cellClicked.setFlagType(FlagType.Suspected);
+				}
+				else if(cellClicked.getFlagType() == FlagType.Suspected) {
+					cellClicked.setFlagType(FlagType.None);
+				}
 			}
 		}
-		// Right click
-		else if(click == MouseEvent.BUTTON3) {
-			// Toggle between flag types
-			if(cellClicked.getFlagType() == FlagType.None) {
-				cellClicked.setFlagType(FlagType.Flag);
-			}
-			else if(cellClicked.getFlagType() == FlagType.Flag) {
-				cellClicked.setFlagType(FlagType.Suspected);
-			}
-			else if(cellClicked.getFlagType() == FlagType.Suspected) {
-				cellClicked.setFlagType(FlagType.None);
-			}
+		else {
+			System.out.println("Thanks for playing!");
 		}
 
 	}

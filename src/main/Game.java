@@ -14,7 +14,7 @@ public class Game implements Runnable {
 	private static final int DEFAULT_CELL_SIZE = 32; // Pixels
 	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
-	private static final int DEFAULT_MINE_COUNT = 124;
+	private static final int DEFAULT_MINE_COUNT = 2;
 
 	private Board board;
 	private Controller controller;
@@ -37,13 +37,17 @@ public class Game implements Runnable {
 
 		renderer = new Renderer(board, cellSize);
 		
-		board.printBoard();
+		//board.printBoard();
 	}
 
 
 	public void update() {
 		if(!gameOver) {
-
+			if(board.isGameWon()) {
+				printWin();
+				setGameOver(true);
+				render();
+			}
 		}
 
 		//System.out.println("Update complete");
@@ -96,9 +100,30 @@ public class Game implements Runnable {
 	}
 	
 	
+	public void printWin() {
+		System.out.println("You win!");
+		printStats();
+	}
 	
+	public void printLose() {
+		System.out.println("You lose!");
+		printStats();
+	}
+	
+	public void printStats() {
+		String[] stats = board.getGameStats();
+		
+		for(int i = 0; i < stats.length; i++) {
+			System.out.println(stats[i]);
+		}
+		System.out.println();
+	}
 
 
+
+	public Renderer getRenderer() {
+		return renderer;
+	}
 
 	public boolean isGameOver() {
 		return gameOver;

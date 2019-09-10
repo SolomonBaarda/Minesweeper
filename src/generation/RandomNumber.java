@@ -2,7 +2,6 @@ package generation;
 
 import java.util.Random;
 
-import enums.CellContent;
 import main.Cell;
 import utils.Pair;
 
@@ -45,8 +44,8 @@ public class RandomNumber extends Generator {
 			Cell currentCell = generation[r.nextInt(boardSize.x)][r.nextInt(boardSize.y)];
 
 			// Not a mine
-			if(currentCell.getContent() != CellContent.Mine) {
-				currentCell.setContent(CellContent.Mine);
+			if(!currentCell.isMine()) {
+				currentCell.setMine(true);
 				minesPlaced++;
 			}
 			// Already a mine
@@ -67,7 +66,7 @@ public class RandomNumber extends Generator {
 
 				Cell currentCell = generation[col][row];
 				// Not a mine
-				if(currentCell.getContent() != CellContent.Mine) {
+				if(!currentCell.isMine()) {
 
 					int nearbyMines = 0;
 					// Loop through 3x3 of nearby cells
@@ -83,7 +82,7 @@ public class RandomNumber extends Generator {
 								continue;
 							}
 
-							if(generation[x][y].getContent() == CellContent.Mine) {
+							if(generation[x][y].isMine()) {
 								nearbyMines++;
 							}
 						}

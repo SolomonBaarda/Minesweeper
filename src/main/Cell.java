@@ -1,39 +1,55 @@
 package main;
 
-import enums.CellContent;
 import enums.FlagType;
 
 public class Cell {
-	private CellContent content;
+	private boolean isMine;
 	private FlagType flagType;
 	private int col, row;
 	private int nearbyMineCount;
+	private boolean clicked;
 
 
 	public Cell(int col, int row) {
-		content = CellContent.Empty;
-		flagType = FlagType.None;
-		nearbyMineCount = -1;
 		this.col = col;
 		this.row = row;
+		isMine = false;
+		flagType = FlagType.None;
+		nearbyMineCount = -1;
+		clicked = false;
 	}
+
+
+
 
 
 
 	@Override
 	public String toString() {
-		return "Cell(" +col+ "," +row+ ") [content: " +content+ "]";
+		return "Cell [isMine=" + isMine + ", col=" + col + ", row=" + row + "]";
 	}
 
 
-	public CellContent getContent() {
-		return content;
+
+
+
+
+	public boolean isMine() {
+		return isMine;
 	}
 
 
-	public void setContent(CellContent content) {
-		this.content = content;
+
+
+
+
+	public void setMine(boolean isMine) {
+		this.isMine = isMine;
 	}
+
+
+
+
 
 
 	public int getRow() {
@@ -67,6 +83,18 @@ public class Cell {
 
 	public void setNearbyMineCount(int nearbyMines) {
 		this.nearbyMineCount = nearbyMines;
+	}
+
+
+
+	public boolean isClicked() {
+		return clicked;
+	}
+
+
+
+	public void setClicked(boolean clicked) {
+		this.clicked = clicked;
 	}
 
 
