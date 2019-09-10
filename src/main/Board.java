@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import enums.FlagType;
@@ -7,6 +8,10 @@ import generation.Generator;
 import generation.RandomNumber;
 import utils.Pair;
 
+/**
+ * @author Solom
+ *
+ */
 public class Board {
 
 	private Cell[][] board;
@@ -15,6 +20,8 @@ public class Board {
 
 	private Generator randomGenerator = new RandomNumber();
 	private final int mineCount;
+	
+	private boolean boardGenerated;
 
 	public Board(int columnCount, int rowCount, final int mineCount) {
 		this(new Pair(columnCount, rowCount), mineCount);
@@ -25,9 +32,6 @@ public class Board {
 		this.boardSize = boardSize;
 		this.mineCount = mineCount;
 
-		board = randomGenerator.generate(boardSize, mineCount);
-
-		mineList = getAllMines();
 	}
 
 
@@ -48,7 +52,19 @@ public class Board {
 
 	}
 
-
+	
+	/**
+	 * Method that generates the board.
+	 * @param safeCell
+	 */
+	public void generate(Point safeCell) {
+		board = randomGenerator.generate(boardSize, mineCount, safeCell);
+		mineList = getAllMines();
+		
+		boardGenerated = true;
+	}
+	
+	
 	public boolean isGameWon() {
 		for(Cell cell: mineList) {
 			if(cell.getFlagType() != FlagType.Flag) {
@@ -188,6 +204,16 @@ public class Board {
 	}
 
 
+	
+	
+
+	public boolean isBoardGenerated() {
+		return boardGenerated;
+	}
+
+	public void setBoardGenerated(boolean boardGenerated) {
+		this.boardGenerated = boardGenerated;
+	}
 
 	public Pair getBoardSize() {
 		return boardSize;

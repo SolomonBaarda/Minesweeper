@@ -24,55 +24,69 @@ public class Controller implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		// Dont allow mouse clicks when the game is finished 
 		if(!game.isGameOver()) {
 
 			int click = e.getButton();
 			Point p = e.getPoint();
+			
+			int cellX = p.x / cellSize;
+			int cellY = p.y / cellSize;
+			
+			// Don't allow mouse clicks when the board has not been generated 
+			if(board.isBoardGenerated()) {
 
-			Cell cellClicked = board.getCell(p.x / cellSize, p.y / cellSize);
+				Cell cellClicked = board.getCell(cellX, cellY);
 
-			// Left click
-			if(click == MouseEvent.BUTTON1) {
-				// Flag on tile
-				if(cellClicked.getFlagType() == FlagType.Flag) {
-					System.out.println("Remove the flag to click on this cell");
-				}
-				// No flag
-				else {
-					cellClicked.setClicked(true);
-					// Mine
-					if(cellClicked.isMine()) {
-						// Game over
-						game.printLose();
-						game.setGameOver(true);
-						game.render();
+				// Left click
+				if(click == MouseEvent.BUTTON1) {
+					// Flag on tile
+					if(cellClicked.getFlagType() == FlagType.Flag) {
+						System.out.println("Remove the flag to click on this cell");
 					}
-					// Not a mine
+					// No flag
 					else {
-						// Click all nearby empty tiles
-						board.smartCellClick(cellClicked);
-					}
+						cellClicked.setClicked(true);
+						// Mine
+						if(cellClicked.isMine()) {
+							// Game over
+							game.printLose();
+							game.setGameOver(true);
+							game.render();
+						}
+						// Not a mine
+						else {
+							// Click all nearby empty tiles
+							board.smartCellClick(cellClicked);
+						}
 
+					}
+				}
+
+				// Right click
+				else if(click == MouseEvent.BUTTON3) {
+					// Toggle between flag types
+					if(cellClicked.getFlagType() == FlagType.None) {
+						cellClicked.setFlagType(FlagType.Flag);
+					}
+					else if(cellClicked.getFlagType() == FlagType.Flag) {
+						cellClicked.setFlagType(FlagType.Suspected);
+					}
+					else if(cellClicked.getFlagType() == FlagType.Suspected) {
+						cellClicked.setFlagType(FlagType.None);
+					}
 				}
 			}
-
-			// Right click
-			else if(click == MouseEvent.BUTTON3) {
-				// Toggle between flag types
-				if(cellClicked.getFlagType() == FlagType.None) {
-					cellClicked.setFlagType(FlagType.Flag);
-				}
-				else if(cellClicked.getFlagType() == FlagType.Flag) {
-					cellClicked.setFlagType(FlagType.Suspected);
-				}
-				else if(cellClicked.getFlagType() == FlagType.Suspected) {
-					cellClicked.setFlagType(FlagType.None);
-				}
+			// Generate board if not done 
+			else {
+				board.generate(new Point(cellX, cellY));
+				board.smartCellClick(board.getCell(cellX, cellY));
 			}
 		}
 		else {
 			System.out.println("Thanks for playing!");
 		}
+
 
 	}
 
