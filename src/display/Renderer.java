@@ -6,15 +6,18 @@ import java.awt.Graphics;
 import enums.FlagType;
 import main.Board;
 import main.Cell;
+import main.Game;
 
 public class Renderer {
 
 	private Board board;
 	private final int cellSize;
+	private Game game;
 
-	public Renderer(Board board, final int cellSize) {
+	public Renderer(Board board, final int cellSize, Game game) {
 		this.board = board;
 		this.cellSize = cellSize;
+		this.game = game;
 	}
 
 
@@ -36,23 +39,44 @@ public class Renderer {
 						// Draw nearbyMineCount for empty cells
 						if(!currentCell.isMine()) {
 
-							//g.setFont(new Font("Arial", 32, Font.PLAIN));
-							g.setColor(Color.black);
-
 							if(currentCell.getNearbyMineCount() != 0) {
-								g.drawString(Integer.toString(currentCell.getNearbyMineCount()), col * cellSize + cellSize/4, row * cellSize + 3 *cellSize / 4);
+
+								int count = currentCell.getNearbyMineCount();
+								if(count == 1) {
+									g.setColor(Color.blue);
+								}
+								else if(count == 2) {
+									g.setColor(Color.green);
+								}
+								else if(count == 3) {
+									g.setColor(Color.red);
+								}
+								else if(count == 4) {
+									g.setColor(Color.black);
+								}
+
+								g.drawString(Integer.toString(count), col * cellSize + cellSize/4, row * cellSize + 3 *cellSize / 4);
 							}
-						}
-						// Draw mine
-						else {
-							g.setColor(Color.red);
-							g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
 						}
 					}
 					else {
 						// Draw all cell backgrounds as grey
 						g.setColor(Color.gray);
 						g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+					}
+
+					if(game.isGameOver()) {
+						if(currentCell.isMine()) {
+							// Set appropriate colour 
+							if(!currentCell.isClicked()) {
+								g.setColor(Color.black);
+							}
+							else {
+								g.setColor(Color.red);
+							}
+							// Draw mine
+							g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
+						}
 					}
 
 					// Draw flag
@@ -81,17 +105,17 @@ public class Renderer {
 
 
 
-//	public void renderAllMines() {
-//		for(int row = 0; row < board.getBoardSize().y; row++)
-//			for(int col = 0; col < board.getBoardSize().x; col++) {
-//				Cell currentCell = board.getCell(col, row);
-//
-//				if(currentCell.isMine()) {
-//					g.setColor(Color.red);
-//					g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
-//				}
-//			}
-//	}
+	//	public void renderAllMines() {
+	//		for(int row = 0; row < board.getBoardSize().y; row++)
+	//			for(int col = 0; col < board.getBoardSize().x; col++) {
+	//				Cell currentCell = board.getCell(col, row);
+	//
+	//				if(currentCell.isMine()) {
+	//					g.setColor(Color.red);
+	//					g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
+	//				}
+	//			}
+	//	}
 
 
 

@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import enums.FlagType;
@@ -8,10 +7,7 @@ import generation.Generator;
 import generation.RandomNumber;
 import utils.Pair;
 
-/**
- * @author Solom
- *
- */
+
 public class Board {
 
 	private Cell[][] board;
@@ -20,7 +16,7 @@ public class Board {
 
 	private Generator randomGenerator = new RandomNumber();
 	private final int mineCount;
-	
+
 	private boolean boardGenerated;
 
 	public Board(int columnCount, int rowCount, final int mineCount) {
@@ -52,19 +48,19 @@ public class Board {
 
 	}
 
-	
+
 	/**
 	 * Method that generates the board.
 	 * @param safeCell
 	 */
-	public void generate(Point safeCell) {
+	public void generate(Pair safeCell) {
 		board = randomGenerator.generate(boardSize, mineCount, safeCell);
 		mineList = getAllMines();
-		
+
 		boardGenerated = true;
 	}
-	
-	
+
+
 	public boolean isGameWon() {
 		for(Cell cell: mineList) {
 			if(cell.getFlagType() != FlagType.Flag) {
@@ -117,15 +113,19 @@ public class Board {
 
 
 	public void smartClick(Cell clickedCell) {
-		clickedCell.setClicked(true);
+		// Set cell to be clicked
+		if(!clickedCell.isClicked()) {
+			clickedCell.setClicked(true);
 
-		if(!clickedCell.isMine()) {
-
-			if(clickedCell.getNearbyMineCount() == 0) {
-				clickNearby(clickedCell);
+			// Check if not mine
+			if(!clickedCell.isMine()) {
+				if(clickedCell.getNearbyMineCount() == 0) {
+					clickNearby(clickedCell);
+				}
 			}
-
-
+		}
+		else {
+			return;
 		}
 	}
 
@@ -138,24 +138,8 @@ public class Board {
 		for(int yOffset = -1; yOffset < 2; yOffset++)
 			for(int xOffset = -1; xOffset < 2; xOffset++) {
 
-				int newX = startingCell.getCol() + xOffset;
-				int newY = startingCell.getRow() + yOffset;
-
-				// Ensure new cell is inside board
-				if(newX < 0) {
-					newX = 0;
-				}
-				else if(newX >= boardSize.x) {
-					newX = boardSize.x - 1;
-				}
-				if(newY < 0) {
-					newY = 0;
-				}
-				else if(newY >= boardSize.y) {
-					newY = boardSize.y - 1;
-				}
-
-				Cell nextCell = getCell(newX, newY);
+				Pair newValue = ensureWithinBoundries(startingCell.getCol() + xOffset, startingCell.getRow() + yOffset);
+				Cell nextCell = getCell(newValue.x, newValue.y);
 
 				// Skip cells already clicked
 				if(nextCell.isClicked()) {
@@ -176,36 +160,41 @@ public class Board {
 
 		for(int yOffset = -1; yOffset < 2; yOffset++)
 			for(int xOffset = -1; xOffset < 2; xOffset++) {
-				
-				int newX = cellToCheck.getCol() + xOffset;
-				int newY = cellToCheck.getRow() + yOffset;
-				
-				// Ensure new cell is inside board
-				if(newX < 0) {
-					newX = 0;
-				}
-				else if(newX >= boardSize.x) {
-					newX = boardSize.x - 1;
-				}
-				if(newY < 0) {
-					newY = 0;
-				}
-				else if(newY >= boardSize.y) {
-					newY = boardSize.y - 1;
-				}
-				
-				if(getCell(newX, newY).getNearbyMineCount() != localMineCountLevel) {
+
+				Pair newValue = ensureWithinBoundries(cellToCheck.getCol() + xOffset, cellToCheck.getRow() + yOffset);
+
+				if(getCell(newValue.x, newValue.y).getNearbyMineCount() != localMineCountLevel) {
 					return true;
 				}
 			}
-
 
 		return false;
 	}
 
 
-	
-	
+
+
+
+	public Pair ensureWithinBoundries(int newValueX, int newValueY) {
+		// Ensure new cell is inside board
+		if(newValueX < 0) {
+			newValueX = 0;
+		}
+		else if(newValueX >= boardSize.x) {
+			newValueX = boardSize.x - 1;
+		}
+		if(newValueY < 0) {
+			newValueY = 0;
+		}
+		else if(newValueY >= boardSize.y) {
+			newValueY = boardSize.y - 1;
+		}
+
+		return new Pair(newValueX, newValueY);
+	}
+
+
+
 
 	public boolean isBoardGenerated() {
 		return boardGenerated;

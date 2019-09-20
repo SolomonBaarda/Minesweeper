@@ -21,17 +21,10 @@ public class Cell {
 
 
 
-
-
-
 	@Override
 	public String toString() {
 		return "Cell [isMine=" + isMine + ", col=" + col + ", row=" + row + "]";
 	}
-
-
-
-
 
 
 	public boolean isMine() {
@@ -40,14 +33,9 @@ public class Cell {
 
 
 
-
-
-
 	public void setMine(boolean isMine) {
 		this.isMine = isMine;
 	}
-
-
 
 
 

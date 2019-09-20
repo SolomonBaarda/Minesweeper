@@ -1,22 +1,48 @@
 package generation;
 
-import java.awt.Point;
-
 import main.Cell;
 import utils.Pair;
 
 public abstract class Generator {
 
-	public abstract Cell[][] generate(Pair boardSize, int mineCount, Point safeCell);
+	protected Cell[][] generation;
+	protected Pair boardSize;
+	protected int mineCount;
 
-	protected abstract void generateMines(Point safeCell);
-	
+	public Cell[][] generate(Pair boardSize, int mineCount, Pair safeCell) {
+		// Create new board
+		this.generation = new Cell[boardSize.x][boardSize.y];
+		this.boardSize = boardSize;
+		this.mineCount = mineCount;
+
+		// Initialise each cell in the board
+		for(int row = 0; row < boardSize.y; row++) 
+			for(int col = 0; col < boardSize.x; col++) {
+				generation[col][row] = new Cell(col, row);
+			}
+
+		generateMines(safeCell);
+
+		generateNumbers(generation, boardSize);
+
+		return generation;
+	}
+
+
+
+
+
+	protected abstract void generateMines(Pair safeCell);
+
+
+
+
 	/**
 	 * Method that iterates over a board and calculates the nearbyMines 
-	 * for each cell.
+	 * count for each cell.
 	 * 
-	 * @param generation
-	 * @param boardSize
+	 * @param generation	Board to edit
+	 * @param boardSize		Width and height of board
 	 */
 	protected void generateNumbers(Cell[][] generation, Pair boardSize) {
 		// Loop through all cells
@@ -56,5 +82,5 @@ public abstract class Generator {
 		System.out.println("Numbers generated.");
 
 	}
-	
+
 }

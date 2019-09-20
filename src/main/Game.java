@@ -11,7 +11,7 @@ import utils.Pair;
 public class Game implements Runnable {
 
 	private static final Pair DEFAULT_BOARD_SIZE = new Pair(32, 32);
-	private static final int DEFAULT_CELL_SIZE = 32; // Pixels
+	private static final int DEFAULT_CELL_SIZE = 24; // Pixels
 	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
 	private static final int DEFAULT_MINE_COUNT = 100;
@@ -35,7 +35,7 @@ public class Game implements Runnable {
 		display = new Display(displaySize);
 		display.getCanvas().addMouseListener(controller);
 
-		renderer = new Renderer(board, cellSize);
+		renderer = new Renderer(board, cellSize, this);
 
 		//board.printBoard();
 	}
@@ -77,21 +77,23 @@ public class Game implements Runnable {
 
 
 
-
 	@Override
 	public void run() {
 		long lastTime = System.nanoTime(); //long 2^63
 		double nanoSecondConversion = 1000000000.0 / 8; // 8 ticks per second
 		double changeInSeconds = 0;
 
-		while(!gameOver) {
+		while(true) {
 			long now = System.nanoTime();
 
 			changeInSeconds += (now - lastTime) / nanoSecondConversion;
 			while(changeInSeconds >= 1) {
 				// Update both at the same time
-				update();
 				render();
+
+				if(!gameOver) {
+					update();
+				}
 				changeInSeconds--;
 			}
 			// Update graphics here for best rendering 

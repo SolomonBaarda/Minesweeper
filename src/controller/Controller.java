@@ -8,6 +8,7 @@ import enums.FlagType;
 import main.Board;
 import main.Cell;
 import main.Game;
+import utils.Pair;
 
 public class Controller implements MouseListener {
 
@@ -24,15 +25,15 @@ public class Controller implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// Dont allow mouse clicks when the game is finished 
+		// Don't allow mouse clicks when the game is finished 
 		if(!game.isGameOver()) {
 
 			int click = e.getButton();
 			Point p = e.getPoint();
-			
+
 			int cellX = p.x / cellSize;
 			int cellY = p.y / cellSize;
-			
+
 			// Don't allow mouse clicks when the board has not been generated 
 			if(board.isBoardGenerated()) {
 
@@ -48,7 +49,7 @@ public class Controller implements MouseListener {
 					else {
 						// Click all nearby cells 
 						board.smartClick(cellClicked);
-						
+
 						// Mine
 						if(cellClicked.isMine()) {
 							// Game over
@@ -76,7 +77,7 @@ public class Controller implements MouseListener {
 			}
 			// Generate board if not done 
 			else {
-				board.generate(new Point(cellX, cellY));
+				board.generate(new Pair(cellX, cellY));
 				board.smartClick(board.getCell(cellX, cellY));
 			}
 		}

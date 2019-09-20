@@ -1,6 +1,5 @@
 package generation;
 
-import java.awt.Point;
 import java.util.Random;
 
 import main.Cell;
@@ -10,35 +9,8 @@ public class RandomNumber extends Generator {
 
 	private Random r = new Random();
 
-	private Cell[][] generation;
-	private Pair boardSize;
-	private int mineCount;
-
-	@Override 
-	public Cell[][] generate(Pair boardSize, int mineCount, Point safeCell) {
-
-		// Create new board
-		this.generation = new Cell[boardSize.x][boardSize.y];
-		this.boardSize = boardSize;
-		this.mineCount = mineCount;
-
-		// Initialise each cell in the board
-		for(int row = 0; row < boardSize.y; row++) 
-			for(int col = 0; col < boardSize.x; col++) {
-				generation[col][row] = new Cell(col, row);
-			}
-
-		
-		generateMines(safeCell);
-
-		generateNumbers(generation, boardSize);
-
-		return generation;
-	}
-
-
 	@Override
-	protected void generateMines(Point safeCell) {
+	protected void generateMines(Pair safeCell) {
 		int minesPlaced = 0;
 
 		while(minesPlaced < mineCount) {
@@ -62,6 +34,8 @@ public class RandomNumber extends Generator {
 		}
 		System.out.println(minesPlaced+ " mines placed.");
 	}
+
+
 
 
 
