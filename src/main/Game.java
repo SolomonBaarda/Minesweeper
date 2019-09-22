@@ -3,6 +3,7 @@ package main;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -106,22 +107,35 @@ public class Game implements Runnable {
 			lastTime = now;
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	public BufferedImage loadImage(String path) {
+
 		try {
-			BufferedImage loadedImage = ImageIO.read(Game.class.getResource(path));
-			BufferedImage formattedImage = new BufferedImage(loadedImage.getWidth(), loadedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
-			formattedImage.getGraphics().drawImage(loadedImage, 0, 0, null);
-
-			return formattedImage;
-
+			BufferedImage img = ImageIO.read(new File(path));
+			return img;
+			
 		} catch (IOException e) {
+			System.out.println("Could not load image with path: " + path);
 			e.printStackTrace();
 			return null;
 		}
+
+
+		//		try {
+		//			BufferedImage loadedImage = ImageIO.read(Game.class.getResource(path));
+		//			BufferedImage formattedImage = new BufferedImage(loadedImage.getWidth(), loadedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+		//			formattedImage.getGraphics().drawImage(loadedImage, 0, 0, null);
+		//
+		//			return formattedImage;
+		//
+		//		} catch (IOException e) {
+		//			System.out.println("Could not load image with path: " + path);
+		//			e.printStackTrace();
+		//			return null;
+		//		}
 	}
 
 

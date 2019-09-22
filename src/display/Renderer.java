@@ -13,14 +13,15 @@ public class Renderer {
 	private Board board;
 	private final int cellSize;
 	private Game game;
-	
+
 	private Sprite flag;
+	private Sprite mine;
 
 	public Renderer(Board board, final int cellSize, Game game) {
 		this.board = board;
 		this.cellSize = cellSize;
 		this.game = game;
-		
+
 		loadSprites();
 	}
 
@@ -31,20 +32,22 @@ public class Renderer {
 			for(int col = 0; col < board.getBoardSize().x; col++) {
 
 				if(board.isBoardGenerated()) {
+					// Get reference to current cell to render
 					Cell currentCell = board.getCell(col, row);
+					int x = currentCell.getCol() * cellSize;
+					int y = currentCell.getRow() * cellSize;
 
 					// Cell has been clicked on
 					if(currentCell.isClicked()) {
-
 						// Draw all cell backgrounds as lightGray
 						g.setColor(Color.lightGray);
-						g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+						g.fillRect(x, y, cellSize, cellSize);
 
 						// Draw nearbyMineCount for empty cells
 						if(!currentCell.isMine()) {
 
+							// Only draw numbers > 0
 							if(currentCell.getNearbyMineCount() != 0) {
-
 								int count = currentCell.getNearbyMineCount();
 								if(count == 1) {
 									g.setColor(Color.blue);
@@ -63,65 +66,71 @@ public class Renderer {
 							}
 						}
 					}
+					// Cell not clicked 
 					else {
-						// Draw all cell backgrounds as grey
+						// Draw all non clicked cells as grey
 						g.setColor(Color.gray);
-						g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+						g.fillRect(x, y, cellSize, cellSize);
 					}
 
 					// Draw flag
 					if(currentCell.getFlagType() == FlagType.Flag) {
-						g.setColor(Color.green);
-						g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
+						// Draw flag sprite
+						renderSprite(g, currentCell, flag);
 					}
 					// Draw suspected mine
 					else if(currentCell.getFlagType() == FlagType.Suspected) {
 						g.setColor(Color.white);
 						g.drawString("?", col * cellSize + cellSize/4, row * cellSize + 3 *cellSize / 4);
 					}
-					
+
+					// Draw all mines when game over
 					if(game.isGameOver()) {
-						if(currentCell.isMine()) {
-							// Set appropriate colour 
+						if(currentCell.isMine() && currentCell.getFlagType() != FlagType.Flag) {
+							// Non clicked mine
 							if(!currentCell.isClicked()) {
-								g.setColor(Color.black);
+								// Draw non discovered mine
+								renderSprite(g, currentCell, mine);
 							}
+							// Mine clicked on
 							else {
-								g.setColor(Color.red);
+								// Draw mine clicked on - red
+								renderSprite(g, currentCell, mine, Color.red);
 							}
-							// Draw mine
-							g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
 						}
-						
+
 						if(currentCell.getFlagType() == FlagType.Flag && !currentCell.isMine()) {
-							// Draw incorrect flag
-							g.setColor(Color.cyan);
-							g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
+							// Draw incorrect flag - pink
+							renderSprite(g, currentCell, flag, Color.pink);
 						}
 					}
 				}
+				// Draw non rendered board all grey
 				else {
 					// Draw all cell backgrounds as grey
 					g.setColor(Color.black);
 					g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
 				}
-				
 
 
 				// Give a grey border to each cell
 				g.setColor(Color.darkGray);
 				g.drawRect(col * cellSize, row * cellSize, cellSize-1, cellSize-1);
-
-				
-				//g.drawImage();
 			}
 	}
 
-	
-	
-	
+	public void renderSprite(Graphics g, Cell cell, Sprite sprite) {
+		renderSprite(g, cell, sprite, null);
+	}
+
+	public void renderSprite(Graphics g, Cell cell, Sprite sprite, Color colour) {
+		g.drawImage(sprite.getImage(), cell.getCol() * cellSize, cell.getRow() * cellSize, cellSize, cellSize, colour, null);
+	}
+
+
 	public void loadSprites() {
 		flag = new Sprite(game.loadImage("src/sprites/flag-no-background-small.png")); 
+		mine = new Sprite(game.loadImage("src/sprites/mine-no-background-small.jpg"));
 	}
 
 
