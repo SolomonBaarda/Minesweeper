@@ -13,11 +13,15 @@ public class Renderer {
 	private Board board;
 	private final int cellSize;
 	private Game game;
+	
+	private Sprite flag;
 
 	public Renderer(Board board, final int cellSize, Game game) {
 		this.board = board;
 		this.cellSize = cellSize;
 		this.game = game;
+		
+		loadSprites();
 	}
 
 
@@ -65,6 +69,17 @@ public class Renderer {
 						g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
 					}
 
+					// Draw flag
+					if(currentCell.getFlagType() == FlagType.Flag) {
+						g.setColor(Color.green);
+						g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
+					}
+					// Draw suspected mine
+					else if(currentCell.getFlagType() == FlagType.Suspected) {
+						g.setColor(Color.white);
+						g.drawString("?", col * cellSize + cellSize/4, row * cellSize + 3 *cellSize / 4);
+					}
+					
 					if(game.isGameOver()) {
 						if(currentCell.isMine()) {
 							// Set appropriate colour 
@@ -77,17 +92,12 @@ public class Renderer {
 							// Draw mine
 							g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
 						}
-					}
-
-					// Draw flag
-					if(currentCell.getFlagType() == FlagType.Flag) {
-						g.setColor(Color.green);
-						g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
-					}
-					// Draw suspected mine
-					else if(currentCell.getFlagType() == FlagType.Suspected) {
-						g.setColor(Color.white);
-						g.drawString("?", col * cellSize + cellSize/4, row * cellSize + 3 *cellSize / 4);
+						
+						if(currentCell.getFlagType() == FlagType.Flag && !currentCell.isMine()) {
+							// Draw incorrect flag
+							g.setColor(Color.cyan);
+							g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
+						}
 					}
 				}
 				else {
@@ -95,27 +105,24 @@ public class Renderer {
 					g.setColor(Color.black);
 					g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
 				}
+				
+
 
 				// Give a grey border to each cell
 				g.setColor(Color.darkGray);
 				g.drawRect(col * cellSize, row * cellSize, cellSize-1, cellSize-1);
 
+				
+				//g.drawImage();
 			}
 	}
 
-
-
-	//	public void renderAllMines() {
-	//		for(int row = 0; row < board.getBoardSize().y; row++)
-	//			for(int col = 0; col < board.getBoardSize().x; col++) {
-	//				Cell currentCell = board.getCell(col, row);
-	//
-	//				if(currentCell.isMine()) {
-	//					g.setColor(Color.red);
-	//					g.fillOval(col * cellSize + 1, row * cellSize + 1, cellSize - 3, cellSize - 3);
-	//				}
-	//			}
-	//	}
+	
+	
+	
+	public void loadSprites() {
+		flag = new Sprite(game.loadImage("src/sprites/flag-no-background-small.png")); 
+	}
 
 
 

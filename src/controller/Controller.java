@@ -63,15 +63,18 @@ public class Controller implements MouseListener {
 
 				// Right click
 				else if(click == MouseEvent.BUTTON3) {
-					// Toggle between flag types
-					if(cellClicked.getFlagType() == FlagType.None) {
-						cellClicked.setFlagType(FlagType.Flag);
-					}
-					else if(cellClicked.getFlagType() == FlagType.Flag) {
-						cellClicked.setFlagType(FlagType.Suspected);
-					}
-					else if(cellClicked.getFlagType() == FlagType.Suspected) {
-						cellClicked.setFlagType(FlagType.None);
+					if(!cellClicked.isClicked()) {
+
+						// Toggle between flag types
+						if(cellClicked.getFlagType() == FlagType.None) {
+							cellClicked.setFlagType(FlagType.Flag);
+						}
+						else if(cellClicked.getFlagType() == FlagType.Flag) {
+							cellClicked.setFlagType(FlagType.Suspected);
+						}
+						else if(cellClicked.getFlagType() == FlagType.Suspected) {
+							cellClicked.setFlagType(FlagType.None);
+						}
 					}
 				}
 			}

@@ -19,9 +19,13 @@ public class RandomNumber extends Generator {
 
 			// Not a mine
 			if(!currentCell.isMine() ) {
-				if(currentCell.getCol() == safeCell.x && currentCell.getRow() == safeCell.y) {
-					continue;
-				}
+//				if(currentCell.getCol() == safeCell.x && currentCell.getRow() == safeCell.y) {
+//					continue;
+//				}
+				if(currentCell.getCol() > safeCell.x - 4 && currentCell.getCol() < safeCell.x + 4)
+					if(currentCell.getRow() > safeCell.y - 4 && currentCell.getRow() < safeCell.y + 4) {
+						continue;
+					}
 
 				currentCell.setMine(true);
 				minesPlaced++;

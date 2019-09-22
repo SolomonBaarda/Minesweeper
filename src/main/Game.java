@@ -2,6 +2,10 @@ package main;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import controller.Controller;
 import display.Display;
@@ -14,7 +18,7 @@ public class Game implements Runnable {
 	private static final int DEFAULT_CELL_SIZE = 24; // Pixels
 	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
-	private static final int DEFAULT_MINE_COUNT = 100;
+	private static final int DEFAULT_MINE_COUNT = 124;
 
 	private Board board;
 	private Controller controller;
@@ -100,6 +104,23 @@ public class Game implements Runnable {
 			//render();
 
 			lastTime = now;
+		}
+	}
+	
+	
+	
+	
+	public BufferedImage loadImage(String path) {
+		try {
+			BufferedImage loadedImage = ImageIO.read(Game.class.getResource(path));
+			BufferedImage formattedImage = new BufferedImage(loadedImage.getWidth(), loadedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+			formattedImage.getGraphics().drawImage(loadedImage, 0, 0, null);
+
+			return formattedImage;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

@@ -88,6 +88,7 @@ public class Board {
 	public String[] getGameStats() {
 		int cellsClicked = 0;
 		int minesCorrectlyFlagged = 0;
+		int flaggedIncorrectCells = 0;
 
 		for(int row = 0; row < boardSize.y; row++) 
 			for(int column = 0; column < boardSize.x; column++) {
@@ -95,18 +96,30 @@ public class Board {
 				if(currentCell.isClicked()) {
 					cellsClicked++;
 				}
-				if(currentCell.getFlagType() == FlagType.Flag && currentCell.isMine()) {
-					minesCorrectlyFlagged++;
+				if(currentCell.getFlagType() == FlagType.Flag) {
+					if(currentCell.isMine()) {
+						minesCorrectlyFlagged++;
+					}
+					else {
+						flaggedIncorrectCells++;
+					}
 				}
 			}
 
 		int totalCells = boardSize.x * boardSize.y - mineCount;
 		float cellsClickedPercent = ((float)cellsClicked / (float)totalCells) * 100f;
 		String clicks = "You uncovered " +cellsClicked+ " cells (" +cellsClickedPercent + "%)";
-		float minesCorrectlyFlaggedPercent = ((float)minesCorrectlyFlagged / (float)mineCount) * 100f;
-		String mines = "You correctly flagged " +minesCorrectlyFlagged+ " mines (" +minesCorrectlyFlaggedPercent+ "%)";
 
-		String[] stats = {clicks, mines};
+		float minesCorrectlyFlaggedPercent = ((float)minesCorrectlyFlagged / (float)mineCount) * 100f;
+		String minesCorrect = "You correctly flagged " +minesCorrectlyFlagged+ " mines (" +minesCorrectlyFlaggedPercent+ "%)";
+
+		String minesUncorrect = "";
+
+		if(flaggedIncorrectCells > 0) {
+			minesUncorrect = "You incorrectly flagged " +flaggedIncorrectCells+ " cells!";
+		}
+		
+		String[] stats = {clicks, minesCorrect, minesUncorrect};
 
 		return stats;
 	}
@@ -143,6 +156,9 @@ public class Board {
 
 				// Skip cells already clicked
 				if(nextCell.isClicked()) {
+					if(nextCell.getFlagType() != FlagType.None) {
+						nextCell.setFlagType(FlagType.None);
+					}
 					continue;
 				}
 				else if(nextCell.getNearbyMineCount() == nearbyMineCountLevel || cellNearEdge(nextCell)) {
