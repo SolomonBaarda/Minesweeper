@@ -19,20 +19,40 @@ public class TopBar extends JPanel {
 
 	private Game game;
 
+	JLabel score;
+	JButton reset;
+	JLabel time;
+
 	public TopBar(Game game) {
 		this.game = game;
 
-		new GridLayout(1, 3);
+		setLayout(new GridLayout(1, 5));
 
-		JLabel score = createLabel("Score");
+		add(new JLabel(""));
+		
+		score = createLabel("");
 		add(score);
 
-		JButton reset = createResetButton();
+		reset = createResetButton();
 		add(reset);
 
-		JLabel time = createLabel("Time");
+		time = createLabel("");
 		add(time);
+		
+		add(new JLabel(""));
 
+	}
+
+
+	public void update() {
+		int maxFlagCount = game.getBoard().getMaxFlagCount();
+		int flagsLeft = maxFlagCount - game.getBoard().getFlagCount();
+		score.setText("Flags left: " +flagsLeft+ "/" +maxFlagCount);
+	}
+
+	public void reset() {
+		score.setText("");
+		time.setText("");
 	}
 
 

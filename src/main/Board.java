@@ -19,6 +19,9 @@ public class Board {
 
 	private boolean boardGenerated;
 
+	private int flagCount;
+	private final int maxFlagCount;
+
 	public Board(int columnCount, int rowCount, final int mineCount) {
 		this(new Pair(columnCount, rowCount), mineCount);
 	}
@@ -26,6 +29,9 @@ public class Board {
 	public Board(Pair boardSize, final int mineCount) {
 		this.boardSize = boardSize;
 		this.mineCount = mineCount;
+
+		flagCount = 0;
+		maxFlagCount = mineCount;
 	}
 
 
@@ -82,6 +88,19 @@ public class Board {
 		return mines;
 	}
 
+
+	public void updateFlagCount() {
+		int newFlagCount = 0;
+		
+		for(int row = 0; row < boardSize.y; row++) 
+			for(int col = 0; col < boardSize.x; col++) {
+				Cell currentCell = getCell(col, row);
+				if(currentCell.getFlagType() == FlagType.Flag) {
+					newFlagCount++;
+				}
+			}
+		flagCount = newFlagCount;
+	}
 
 	public String[] getGameStats() {
 		int cellsClicked = 0;
@@ -189,7 +208,7 @@ public class Board {
 
 	public void clearBoard() {
 		boardGenerated = false;
-		
+
 		board = new Cell[boardSize.x][boardSize.y];
 	}
 
@@ -216,6 +235,20 @@ public class Board {
 
 
 
+
+
+
+	public int getFlagCount() {
+		return flagCount;
+	}
+
+	public void setFlagCount(int flagCount) {
+		this.flagCount = flagCount;
+	}
+
+	public int getMaxFlagCount() {
+		return maxFlagCount;
+	}
 
 	public boolean isBoardGenerated() {
 		return boardGenerated;

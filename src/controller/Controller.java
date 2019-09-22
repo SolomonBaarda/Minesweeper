@@ -67,7 +67,9 @@ public class Controller implements MouseListener {
 
 						// Toggle between flag types
 						if(cellClicked.getFlagType() == FlagType.None) {
-							cellClicked.setFlagType(FlagType.Flag);
+							if(board.getFlagCount() < board.getMaxFlagCount()) {
+								cellClicked.setFlagType(FlagType.Flag);
+							}
 						}
 						else if(cellClicked.getFlagType() == FlagType.Flag) {
 							cellClicked.setFlagType(FlagType.Suspected);

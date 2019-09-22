@@ -25,6 +25,8 @@ public class Game implements Runnable {
 	private Board board;
 	private Controller controller;
 	private Display display;
+	
+	TopBar topBar;
 
 	private Renderer renderer;
 	private boolean gameOver;
@@ -41,9 +43,9 @@ public class Game implements Runnable {
 		controller = new Controller(this, board, cellSize);
 
 		// Create top bar for reset game etc
-		TopBar bar = new TopBar(this);
+		topBar = new TopBar(this);
 		// Create the display
-		display = new Display(bar, displaySize);
+		display = new Display(topBar, displaySize);
 		display.getCanvas().addMouseListener(controller);
 
 		renderer = new Renderer(board, cellSize, this);
@@ -54,6 +56,9 @@ public class Game implements Runnable {
 
 	public void update() {
 			if(board.isBoardGenerated()) {
+				board.updateFlagCount();
+				topBar.update();
+				
 				if(board.isGameWon()) {
 					printWin();
 					setGameOver(true);
@@ -116,9 +121,10 @@ public class Game implements Runnable {
 
 	public void resetGame() {
 		board.clearBoard();
+		topBar.reset();
 		gameOver = false;
 		
-		System.out.println("Reset game..");
+		System.out.println("Game has been reset.");
 	}
 
 
@@ -159,6 +165,10 @@ public class Game implements Runnable {
 	}
 
 
+
+	public Board getBoard() {
+		return board;
+	}
 
 	public Renderer getRenderer() {
 		return renderer;
