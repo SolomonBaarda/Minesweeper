@@ -65,6 +65,7 @@ public class Game implements Runnable {
 			topBar.update();
 
 			if(board.isGameWon()) {
+				topBar.setButtonWin();
 				printWin();
 				setGameOver(true);
 				render();
@@ -121,7 +122,6 @@ public class Game implements Runnable {
 						gameTimeSeconds++;
 					}
 					
-					
 				}
 				changeInSeconds--;
 			}
@@ -157,8 +157,6 @@ public class Game implements Runnable {
 			e.printStackTrace();
 			return null;
 		}
-
-
 	}
 
 
@@ -168,6 +166,7 @@ public class Game implements Runnable {
 	}
 
 	public void printLose() {
+		topBar.setButtonLose();
 		System.out.println("You lose!");
 		printStats();
 	}
