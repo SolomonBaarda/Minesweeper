@@ -1,6 +1,7 @@
 package display;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import enums.FlagType;
@@ -62,6 +63,7 @@ public class Renderer {
 									g.setColor(Color.black);
 								}
 
+								g.setFont(new Font("Arial Bold", Font.PLAIN, 3 * cellSize / 4));
 								g.drawString(Integer.toString(count), col * cellSize + cellSize/4, row * cellSize + 3 *cellSize / 4);
 							}
 						}

@@ -1,5 +1,7 @@
 package display;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,28 +28,28 @@ public class TopBar extends JPanel {
 	public TopBar(Game game) {
 		this.game = game;
 
-		setLayout(new GridLayout(1, 5));
-
-		add(new JLabel(""));
+		setLayout(new GridLayout(1, 3));
 		
 		score = createLabel("");
-		add(score);
+		add(score, BorderLayout.CENTER);
 
 		reset = createResetButton();
-		add(reset);
+		add(reset, BorderLayout.CENTER);
 
 		time = createLabel("");
-		add(time);
+		add(time, BorderLayout.CENTER);
 		
-		add(new JLabel(""));
-
 	}
 
 
 	public void update() {
+		// Update score
 		int maxFlagCount = game.getBoard().getMaxFlagCount();
 		int flagsLeft = maxFlagCount - game.getBoard().getFlagCount();
 		score.setText("Flags left: " +flagsLeft+ "/" +maxFlagCount);
+		
+		// Update time 
+		time.setText("Time: " +Integer.toString(game.getGameTimeSeconds()));
 	}
 
 	public void reset() {
@@ -58,7 +60,9 @@ public class TopBar extends JPanel {
 
 	public JLabel createLabel(String text) {
 		JLabel label = new JLabel(text);
-
+		Font f = new Font("Arial Bold", Font.PLAIN, 24);
+		label.setFont(f);
+		
 		return label;
 	}
 

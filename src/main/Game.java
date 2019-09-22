@@ -16,16 +16,21 @@ import utils.Pair;
 
 public class Game implements Runnable {
 
-	private static final Pair DEFAULT_BOARD_SIZE = new Pair(32, 32);
-	private static final int DEFAULT_CELL_SIZE = 24; // Pixels
+	private static final Pair DEFAULT_BOARD_SIZE = new Pair(24, 24);
+	private static final int DEFAULT_CELL_SIZE = 32; // Pixels
 	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
 	private static final int DEFAULT_MINE_COUNT = 124;
 
+	private static final int TICKS_PER_SECOND = 8;
+
+	private int gameTimeSeconds;
+	private int tickCount;
+
 	private Board board;
 	private Controller controller;
 	private Display display;
-	
+
 	TopBar topBar;
 
 	private Renderer renderer;
@@ -55,16 +60,16 @@ public class Game implements Runnable {
 
 
 	public void update() {
-			if(board.isBoardGenerated()) {
-				board.updateFlagCount();
-				topBar.update();
-				
-				if(board.isGameWon()) {
-					printWin();
-					setGameOver(true);
-					render();
-				}
+		if(board.isBoardGenerated()) {
+			board.updateFlagCount();
+			topBar.update();
+
+			if(board.isGameWon()) {
+				printWin();
+				setGameOver(true);
+				render();
 			}
+		}
 
 		//System.out.println("Update complete");
 	}
@@ -94,24 +99,32 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 		long lastTime = System.nanoTime(); //long 2^63
-		double nanoSecondConversion = 1000000000.0 / 8; // 8 ticks per second
+		double nanoSecondConversion = 1000000000.0 / TICKS_PER_SECOND; 
 		double changeInSeconds = 0;
+		
+		tickCount = 0;
 
 		while(true) {
 			long now = System.nanoTime();
 
 			changeInSeconds += (now - lastTime) / nanoSecondConversion;
 			while(changeInSeconds >= 1) {
-				// Update both at the same time
+				// Always render
 				render();
 
 				if(!gameOver) {
+					// Only register updates if game not over
 					update();
+					
+					tickCount++;
+					if(tickCount % TICKS_PER_SECOND == 0) {
+						gameTimeSeconds++;
+					}
+					
+					
 				}
 				changeInSeconds--;
 			}
-			// Update graphics here for best rendering 
-			//render();
 
 			lastTime = now;
 		}
@@ -122,8 +135,12 @@ public class Game implements Runnable {
 	public void resetGame() {
 		board.clearBoard();
 		topBar.reset();
-		gameOver = false;
 		
+		tickCount = 0;
+		gameTimeSeconds = 0;
+		
+		gameOver = false;
+
 		System.out.println("Game has been reset.");
 	}
 
@@ -164,7 +181,12 @@ public class Game implements Runnable {
 		System.out.println();
 	}
 
+	
 
+
+	public int getGameTimeSeconds() {
+		return gameTimeSeconds;
+	}
 
 	public Board getBoard() {
 		return board;
