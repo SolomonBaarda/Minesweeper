@@ -1,7 +1,10 @@
 package display;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import utils.Pair;
 
@@ -14,18 +17,18 @@ public class Display extends JFrame {
 	
 	private Canvas canvas = new Canvas();
 
-	public Display(int displaySizePixelsX, int displaySizePixelsY) {
-		this(new Pair(displaySizePixelsX, displaySizePixelsY));
-	}
-
-	public Display(Pair displaySizePixels) {
+	public Display(JPanel topPanel, Pair displaySizePixels) {
+				
 		//Make our program shutdown when we exit out.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Minesweeper");
 
-//		GridLayout l = new GridLayout(2, 1);
-//		l.setVgap(10);
-//		setLayout(l);
+		BorderLayout l = new BorderLayout();
+		//l.setVgap(10);
+		setLayout(l);
+		
+		
+		add(topPanel, BorderLayout.NORTH);
 		
 		// Set the size of the canvas
 		canvas.setBounds(0, 0, displaySizePixels.x, displaySizePixels.y);

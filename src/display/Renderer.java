@@ -119,10 +119,23 @@ public class Renderer {
 			}
 	}
 
+
+	/**
+	 * @param g
+	 * @param cell
+	 * @param sprite
+	 */
 	public void renderSprite(Graphics g, Cell cell, Sprite sprite) {
 		renderSprite(g, cell, sprite, null);
 	}
 
+
+	/**
+	 * @param g
+	 * @param cell
+	 * @param sprite
+	 * @param colour
+	 */
 	public void renderSprite(Graphics g, Cell cell, Sprite sprite, Color colour) {
 		g.drawImage(sprite.getImage(), cell.getCol() * cellSize, cell.getRow() * cellSize, cellSize, cellSize, colour, null);
 	}

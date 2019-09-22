@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import controller.Controller;
 import display.Display;
 import display.Renderer;
+import display.TopBar;
 import utils.Pair;
 
 public class Game implements Runnable {
@@ -34,10 +35,15 @@ public class Game implements Runnable {
 
 	public Game(Pair boardSize, Pair displaySize, int cellSize, int mineCount) {
 
+		// Create board of size
 		board = new Board(boardSize, mineCount);
+		// Create mouse listener for game
 		controller = new Controller(this, board, cellSize);
 
-		display = new Display(displaySize);
+		// Create top bar for reset game etc
+		TopBar bar = new TopBar(this);
+		// Create the display
+		display = new Display(bar, displaySize);
 		display.getCanvas().addMouseListener(controller);
 
 		renderer = new Renderer(board, cellSize, this);
@@ -110,13 +116,19 @@ public class Game implements Runnable {
 
 
 
+	public void resetGame() {
+		System.out.println("Reset game..");
+		
+	}
+
+
 
 	public BufferedImage loadImage(String path) {
 
 		try {
 			BufferedImage img = ImageIO.read(new File(path));
 			return img;
-			
+
 		} catch (IOException e) {
 			System.out.println("Could not load image with path: " + path);
 			e.printStackTrace();
@@ -124,18 +136,6 @@ public class Game implements Runnable {
 		}
 
 
-		//		try {
-		//			BufferedImage loadedImage = ImageIO.read(Game.class.getResource(path));
-		//			BufferedImage formattedImage = new BufferedImage(loadedImage.getWidth(), loadedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
-		//			formattedImage.getGraphics().drawImage(loadedImage, 0, 0, null);
-		//
-		//			return formattedImage;
-		//
-		//		} catch (IOException e) {
-		//			System.out.println("Could not load image with path: " + path);
-		//			e.printStackTrace();
-		//			return null;
-		//		}
 	}
 
 

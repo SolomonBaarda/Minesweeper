@@ -21,13 +21,11 @@ public class Board {
 
 	public Board(int columnCount, int rowCount, final int mineCount) {
 		this(new Pair(columnCount, rowCount), mineCount);
-
 	}
 
 	public Board(Pair boardSize, final int mineCount) {
 		this.boardSize = boardSize;
 		this.mineCount = mineCount;
-
 	}
 
 
