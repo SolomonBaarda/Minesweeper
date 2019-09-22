@@ -53,7 +53,6 @@ public class Game implements Runnable {
 
 
 	public void update() {
-		if(!gameOver) {
 			if(board.isBoardGenerated()) {
 				if(board.isGameWon()) {
 					printWin();
@@ -61,7 +60,6 @@ public class Game implements Runnable {
 					render();
 				}
 			}
-		}
 
 		//System.out.println("Update complete");
 	}
@@ -117,8 +115,10 @@ public class Game implements Runnable {
 
 
 	public void resetGame() {
-		System.out.println("Reset game..");
+		board.clearBoard();
+		gameOver = false;
 		
+		System.out.println("Reset game..");
 	}
 
 

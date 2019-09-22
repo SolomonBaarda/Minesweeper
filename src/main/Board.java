@@ -116,7 +116,7 @@ public class Board {
 		if(flaggedIncorrectCells > 0) {
 			minesUncorrect = "You incorrectly flagged " +flaggedIncorrectCells+ " cells!";
 		}
-		
+
 		String[] stats = {clicks, minesCorrect, minesUncorrect};
 
 		return stats;
@@ -185,6 +185,13 @@ public class Board {
 		return false;
 	}
 
+
+
+	public void clearBoard() {
+		boardGenerated = false;
+		
+		board = new Cell[boardSize.x][boardSize.y];
+	}
 
 
 
