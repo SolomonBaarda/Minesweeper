@@ -3,6 +3,7 @@ package display;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Random;
 
 import enums.FlagType;
 import main.Board;
@@ -106,18 +107,33 @@ public class Renderer {
 							renderSprite(g, currentCell, flag, Color.pink);
 						}
 					}
+
+
+					// Give a grey border to each cell
+					g.setColor(Color.darkGray);
+					g.drawRect(col * cellSize, row * cellSize, cellSize-1, cellSize-1);
 				}
 				// Draw non rendered board all grey
 				else {
-					// Draw all cell backgrounds as grey
-					g.setColor(Color.black);
-					g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+					// Draw random colours while not in game - weird loading menu idea
+					Random r = new Random();
+
+					if(r.nextInt(20) == 0) {
+
+						float colourValue;
+						do {
+							colourValue = r.nextFloat();
+						}
+						while(colourValue < 0.4 || colourValue > 0.9);
+
+						g.setColor(new Color(colourValue, colourValue, colourValue));
+						g.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+					}
+
 				}
 
 
-				// Give a grey border to each cell
-				g.setColor(Color.darkGray);
-				g.drawRect(col * cellSize, row * cellSize, cellSize-1, cellSize-1);
+
 			}
 	}
 

@@ -16,9 +16,9 @@ public class Controller implements MouseListener {
 	private Board board;
 	private final int cellSize;
 
-	public Controller(Game game, Board board, int cellSize) {
+	public Controller(Game game, int cellSize) {
 		this.game = game;
-		this.board = board;
+		this.board = game.getBoard();
 		this.cellSize = cellSize;
 	}
 
@@ -42,29 +42,21 @@ public class Controller implements MouseListener {
 				// Left click
 				if(click == MouseEvent.BUTTON1) {
 					// Flag on tile
-					if(cellClicked.getFlagType() == FlagType.Flag) {
-						System.out.println("Remove the flag to click on this cell");
-					}
-					// No flag
-					else {
+					if(cellClicked.getFlagType() != FlagType.Flag) {
 						// Click all nearby cells 
 						board.smartClick(cellClicked);
 
 						// Mine
 						if(cellClicked.isMine()) {
 							// Game over
-							game.printLose();
-							game.setGameOver(true);
-							game.render();
+							game.gameLose();
 						}
-
 					}
 				}
 
 				// Right click
 				else if(click == MouseEvent.BUTTON3) {
 					if(!cellClicked.isClicked()) {
-
 						// Toggle between flag types
 						if(cellClicked.getFlagType() == FlagType.None) {
 							if(board.getFlagCount() < board.getMaxFlagCount()) {
@@ -82,14 +74,13 @@ public class Controller implements MouseListener {
 			}
 			// Generate board if not done 
 			else {
+				game.getTopBar().inGameTopBar();
+				game.resetGame();
+				game.getTopBar().setInGame(true);
 				board.generate(new Pair(cellX, cellY));
 				board.smartClick(board.getCell(cellX, cellY));
 			}
 		}
-		else {
-			System.out.println("Thanks for playing!");
-		}
-
 
 	}
 

@@ -14,11 +14,11 @@ public class Display extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Canvas canvas = new Canvas();
 
 	public Display(JPanel topPanel, Pair displaySizePixels) {
-				
+
 		//Make our program shutdown when we exit out.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Minesweeper");
@@ -26,20 +26,21 @@ public class Display extends JFrame {
 		BorderLayout l = new BorderLayout();
 		//l.setVgap(10);
 		setLayout(l);
-		
-		
+
+
 		add(topPanel, BorderLayout.NORTH);
-		
+
 		// Set the size of the canvas
 		canvas.setBounds(0, 0, displaySizePixels.x, displaySizePixels.y);
 
 
-		
 		//Add our graphics component
 		add(canvas);
 
+		setResizable(false);
+		
 		pack();
-
+		
 		//Put our frame in the centre of the screen.
 		setLocationRelativeTo(null);
 
@@ -57,6 +58,6 @@ public class Display extends JFrame {
 	}
 
 
-	
+
 
 }

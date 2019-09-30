@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -20,7 +21,7 @@ public class Game implements Runnable {
 	private static final int DEFAULT_CELL_SIZE = 32; // Pixels
 	private static final Pair DEFAULT_DISPLAY_SIZE = new Pair(DEFAULT_BOARD_SIZE.x * DEFAULT_CELL_SIZE, DEFAULT_BOARD_SIZE.y * DEFAULT_CELL_SIZE);
 
-	private static final int DEFAULT_MINE_COUNT = 124;
+	public static final int DEFAULT_MINE_COUNT = 124;
 
 	private static final int TICKS_PER_SECOND = 8;
 
@@ -45,7 +46,7 @@ public class Game implements Runnable {
 		// Create board of size
 		board = new Board(boardSize, mineCount);
 		// Create mouse listener for game
-		controller = new Controller(this, board, cellSize);
+		controller = new Controller(this, cellSize);
 
 		// Create top bar for reset game etc
 		topBar = new TopBar(this);
@@ -65,10 +66,7 @@ public class Game implements Runnable {
 			topBar.update();
 
 			if(board.isGameWon()) {
-				topBar.setButtonWin();
-				printWin();
-				setGameOver(true);
-				render();
+				gameWin();
 			}
 		}
 
@@ -102,7 +100,7 @@ public class Game implements Runnable {
 		long lastTime = System.nanoTime(); //long 2^63
 		double nanoSecondConversion = 1000000000.0 / TICKS_PER_SECOND; 
 		double changeInSeconds = 0;
-		
+
 		tickCount = 0;
 
 		while(true) {
@@ -116,12 +114,12 @@ public class Game implements Runnable {
 				if(!gameOver) {
 					// Only register updates if game not over
 					update();
-					
+
 					tickCount++;
 					if(tickCount % TICKS_PER_SECOND == 0) {
 						gameTimeSeconds++;
 					}
-					
+
 				}
 				changeInSeconds--;
 			}
@@ -134,11 +132,11 @@ public class Game implements Runnable {
 
 	public void resetGame() {
 		board.clearBoard();
-		topBar.reset();
-		
+		topBar.inGameTopBar();
+
 		tickCount = 0;
 		gameTimeSeconds = 0;
-		
+
 		gameOver = false;
 
 		System.out.println("Game has been reset.");
@@ -160,29 +158,51 @@ public class Game implements Runnable {
 	}
 
 
-	public void printWin() {
-		System.out.println("You win!");
+	public void gameWin() {
+		topBar.setButtonWin();
+		gameIsOver();
+
 		printStats();
 	}
 
-	public void printLose() {
+	public void gameLose() {
 		topBar.setButtonLose();
-		System.out.println("You lose!");
+		gameIsOver();
+
 		printStats();
 	}
+
+
+	public void gameIsOver() {
+		setGameOver(true);
+		render();
+	}
+
+
 
 	public void printStats() {
-		String[] stats = board.getGameStats();
+		ArrayList<String> stats = getGameStats();
 
-		for(int i = 0; i < stats.length; i++) {
-			System.out.println(stats[i]);
+		for(int i = 0; i < stats.size(); i++) {
+			System.out.println(stats.get(i));
 		}
 		System.out.println();
 	}
 
+
+	public ArrayList<String> getGameStats() {
+		ArrayList<String> stats = board.getGameStats();
+
+		return stats;
+	}
+
+
+
+
+	public TopBar getTopBar() {
+		return topBar;
+	}
 	
-
-
 	public int getGameTimeSeconds() {
 		return gameTimeSeconds;
 	}

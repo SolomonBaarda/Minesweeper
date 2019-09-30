@@ -91,7 +91,7 @@ public class Board {
 
 	public void updateFlagCount() {
 		int newFlagCount = 0;
-		
+
 		for(int row = 0; row < boardSize.y; row++) 
 			for(int col = 0; col < boardSize.x; col++) {
 				Cell currentCell = getCell(col, row);
@@ -102,7 +102,7 @@ public class Board {
 		flagCount = newFlagCount;
 	}
 
-	public String[] getGameStats() {
+	public ArrayList<String> getGameStats() {
 		int cellsClicked = 0;
 		int minesCorrectlyFlagged = 0;
 		int flaggedIncorrectCells = 0;
@@ -123,20 +123,18 @@ public class Board {
 				}
 			}
 
+		ArrayList<String> stats = new ArrayList<>();
+
 		int totalCells = boardSize.x * boardSize.y - mineCount;
 		float cellsClickedPercent = ((float)cellsClicked / (float)totalCells) * 100f;
-		String clicks = "You uncovered " +cellsClicked+ " cells (" +cellsClickedPercent + "%)";
+		stats.add("You uncovered " +cellsClicked+ " cells (" +cellsClickedPercent + "%)");
 
 		float minesCorrectlyFlaggedPercent = ((float)minesCorrectlyFlagged / (float)mineCount) * 100f;
-		String minesCorrect = "You correctly flagged " +minesCorrectlyFlagged+ " mines (" +minesCorrectlyFlaggedPercent+ "%)";
-
-		String minesUncorrect = "";
+		stats.add("You correctly flagged " +minesCorrectlyFlagged+ " mines (" +minesCorrectlyFlaggedPercent+ "%)");
 
 		if(flaggedIncorrectCells > 0) {
-			minesUncorrect = "You incorrectly flagged " +flaggedIncorrectCells+ " cells!";
+			stats.add("You incorrectly flagged " +flaggedIncorrectCells+ " cells!");
 		}
-
-		String[] stats = {clicks, minesCorrect, minesUncorrect};
 
 		return stats;
 	}
