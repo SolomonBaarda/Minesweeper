@@ -38,13 +38,13 @@ public class Game implements Runnable {
 	private boolean gameOver;
 
 	public Game() {
-		this(DEFAULT_BOARD_SIZE, DEFAULT_DISPLAY_SIZE, DEFAULT_CELL_SIZE, DEFAULT_MINE_COUNT);
+		this(DEFAULT_BOARD_SIZE, DEFAULT_DISPLAY_SIZE, DEFAULT_CELL_SIZE);
 	}
 
-	public Game(Pair boardSize, Pair displaySize, int cellSize, int mineCount) {
+	public Game(Pair boardSize, Pair displaySize, int cellSize) {
 
 		// Create board of size
-		board = new Board(boardSize, mineCount);
+		board = new Board(boardSize);
 		// Create mouse listener for game
 		controller = new Controller(this, cellSize);
 
@@ -138,8 +138,6 @@ public class Game implements Runnable {
 		gameTimeSeconds = 0;
 
 		gameOver = false;
-
-		System.out.println("Game has been reset.");
 	}
 
 
@@ -202,7 +200,7 @@ public class Game implements Runnable {
 	public TopBar getTopBar() {
 		return topBar;
 	}
-	
+
 	public int getGameTimeSeconds() {
 		return gameTimeSeconds;
 	}

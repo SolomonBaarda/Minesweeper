@@ -118,7 +118,7 @@ public class Renderer {
 					// Draw random colours while not in game - weird loading menu idea
 					Random r = new Random();
 
-					if(r.nextInt(20) == 0) {
+					if(r.nextInt(64) == 0) {
 
 						float colourValue;
 						do {

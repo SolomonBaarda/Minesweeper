@@ -15,49 +15,34 @@ public class Board {
 	private Pair boardSize;
 
 	private Generator randomGenerator = new RandomNumber();
-	private final int mineCount;
+	private int mineCount;
 
 	private boolean boardGenerated;
 
 	private int flagCount;
 	private final int maxFlagCount;
 
-	public Board(int columnCount, int rowCount, final int mineCount) {
-		this(new Pair(columnCount, rowCount), mineCount);
+	public Board(int columnCount, int rowCount) {
+		this(new Pair(columnCount, rowCount));
 	}
 
-	public Board(Pair boardSize, final int mineCount) {
+	public Board(Pair boardSize) {
 		this.boardSize = boardSize;
-		this.mineCount = mineCount;
+		mineCount = 0;
 
 		flagCount = 0;
 		maxFlagCount = mineCount;
 	}
 
 
-	public void printBoard() {
-		System.out.println("Board size: "+ boardSize.x +" x "+ boardSize.y);
-
-		for(int row = 0; row < boardSize.y; row++) {
-			for(int column = 0; column < boardSize.x; column++) {
-				if(!getCell(column, row).isMine()) {
-					System.out.print(getCell(column, row).getNearbyMineCount() +" ");
-				}
-				else {
-					System.out.print("X ");
-				}
-			}
-			System.out.println();
-		}
-
-	}
-
 
 	/**
 	 * Method that generates the board.
 	 * @param safeCell
 	 */
-	public void generate(Pair safeCell) {
+	public void generate(Pair safeCell, int mineCount) {
+		this.mineCount = mineCount;
+
 		board = randomGenerator.generate(boardSize, mineCount, safeCell);
 		mineList = getAllMines();
 
@@ -74,6 +59,11 @@ public class Board {
 		return true;
 	}
 
+
+	public void initialise(Pair boardSize) {
+		this.boardSize = boardSize;
+		board = new Cell[boardSize.x][boardSize.y];
+	}
 
 	public ArrayList<Cell> getAllMines() {
 		ArrayList<Cell> mines = new ArrayList<>();

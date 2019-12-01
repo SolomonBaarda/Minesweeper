@@ -22,8 +22,8 @@ public class RandomNumber extends Generator {
 //				if(currentCell.getCol() == safeCell.x && currentCell.getRow() == safeCell.y) {
 //					continue;
 //				}
-				if(currentCell.getCol() > safeCell.x - 4 && currentCell.getCol() < safeCell.x + 4)
-					if(currentCell.getRow() > safeCell.y - 4 && currentCell.getRow() < safeCell.y + 4) {
+				if(currentCell.getCol() >= safeCell.x - 3 && currentCell.getCol() < safeCell.x + 3)
+					if(currentCell.getRow() >= safeCell.y - 3 && currentCell.getRow() < safeCell.y + 3) {
 						continue;
 					}
 

@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import display.TopBar;
 import enums.FlagType;
 import main.Board;
 import main.Cell;
@@ -74,10 +75,14 @@ public class Controller implements MouseListener {
 			}
 			// Generate board if not done 
 			else {
+				
+				int mineCount = game.getTopBar().getMinesToGenerate();
 				game.getTopBar().inGameTopBar();
 				game.resetGame();
 				game.getTopBar().setInGame(true);
-				board.generate(new Pair(cellX, cellY));
+				
+				board.generate(new Pair(cellX, cellY), mineCount);
+				
 				board.smartClick(board.getCell(cellX, cellY));
 			}
 		}
